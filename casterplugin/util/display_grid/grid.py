@@ -115,13 +115,57 @@ class RainbowGrid(Grid):
         """ Should draw the grid on screen """
         print('rb_draw')
 
+
     def get_position(color_sequence, color, number):
         pass
 
 
 if __name__ == "__main__":
-    g = RainbowGrid()
-    g.initialize()
-    g.draw()
-    g.show()
-    g.hide()
+
+    import sys
+    from PySide6 import QtCore, QtWidgets, QtGui
+
+    class Window(QtWidgets.QMainWindow):
+
+        def __init__(self):
+            super().__init__()
+
+            #self.setWindowTitle('test')
+            #self.setGeometry(500, 500, 500, 500)
+            #self.setMouseTracking(False)
+            #self.show()
+            #self.showFullScreen()
+
+         #   self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+         #   self.setWindowFlags(QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WA_TranslucentBackground)
+         #   self.setStyleSheet("background:transparent;")
+            #self.setStyleSheet("background:transparent;")
+            #self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+            #self.setWindowFlags(self.windowFlags() | QtCore.Qt.WindowStaysOnTopHint)
+            #self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTransparentForInput)
+
+        def paintEvent(self, event):
+            painter = QtGui.QPainter(self)
+            painter.setPen(QtGui.QPen(QtCore.Qt.black,  5, QtCore.Qt.SolidLine))
+            painter.setBrush(QtGui.QBrush(QtCore.Qt.yellow, QtCore.Qt.SolidPattern))
+            painter.drawRect(80, 40, 400, 200)
+
+    app = QtWidgets.QApplication()
+
+    window = Window()
+    window.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+    window.setWindowFlags(QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WA_TranslucentBackground)
+    window.setStyleSheet("background:transparent;")
+    window.show()
+#        widget = MyWidget()
+#        widget.resize(800, 600)
+#        widget.show()
+
+    sys.exit(app.exec())
+
+
+#    g = RainbowGrid()
+#    g.initialize()
+#    g.draw()
+#    g.show()
+#    g.hide()
