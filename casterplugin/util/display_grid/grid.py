@@ -6,6 +6,8 @@ from xmlrpc.server import SimpleXMLRPCServer
 
 from time import sleep
 
+from PySide6 import QtCore, QtWidgets, QtGui
+
 
 def grid_proxy(function):
     @wraps(function)
@@ -115,66 +117,44 @@ class RainbowGrid(Grid):
         """ Should draw the grid on screen """
         print('rb_draw')
 
+        app = QtWidgets.QApplication()
+        window = ScreenOverlayWindow()
+        window.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        window.setWindowFlags(
+                # Transparency
+                QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WA_TranslucentBackground
+                # Pass through input
+                | QtCore.Qt.WindowTransparentForInput)
+        window.setStyleSheet("background:transparent;")
+        window.show()
+        app.exec()
 
     def get_position(color_sequence, color, number):
         pass
 
 
+class ScreenOverlayWindow(QtWidgets.QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+
+        self.setGeometry(500, 500, 500, 500)
+        self.setGeometry(QtCore.QRect(
+            QtCore.QPoint(0, 0), self.screen().availableSize()))
+
+    def paintEvent(self, event):
+        painter = QtGui.QPainter(self)
+        painter.setPen(QtGui.QPen(QtCore.Qt.black,  5, QtCore.Qt.SolidLine))
+        painter.setBrush(QtGui.QBrush(QtCore.Qt.yellow, QtCore.Qt.SolidPattern))
+        painter.drawRect(0, 0, 80, 60)
+
+
 if __name__ == "__main__":
 
     import sys
-    from PySide6 import QtCore, QtWidgets, QtGui
 
-    class Window(QtWidgets.QMainWindow):
-
-        def __init__(self):
-            super().__init__()
-
-            #self.setWindowTitle('test')
-            self.setGeometry(500, 500, 500, 500)
-            #self.setMouseTracking(False)
-            #self.show()
-            #self.showFullScreen()
-
-         #   self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-         #   self.setWindowFlags(QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WA_TranslucentBackground)
-         #   self.setStyleSheet("background:transparent;")
-            #self.setStyleSheet("background:transparent;")
-            #self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
-            #self.setWindowFlags(self.windowFlags() | QtCore.Qt.WindowStaysOnTopHint)
-            #self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTransparentForInput)
-
-        def paintEvent(self, event):
-            painter = QtGui.QPainter(self)
-            painter.setPen(QtGui.QPen(QtCore.Qt.black,  5, QtCore.Qt.SolidLine))
-            painter.setBrush(QtGui.QBrush(QtCore.Qt.yellow, QtCore.Qt.SolidPattern))
-            painter.drawRect(80, 40, 40, 20)
-
-    app = QtWidgets.QApplication()
-
-    window = Window()
-
-    # Transparency
-    window.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-    window.setWindowFlags(
-            # Transparency
-            QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WA_TranslucentBackground
-            # Pass through input
-            | QtCore.Qt.WindowTransparentForInput)
-    window.setStyleSheet("background:transparent;")
-
-    #window.setMouseTracking(False)
-    #window.setWindowFlags(QtCore.Qt.WindowTransparentForInput)
-    window.show()
-#        widget = MyWidget()
-#        widget.resize(800, 600)
-#        widget.show()
-
-    sys.exit(app.exec())
-
-
-#    g = RainbowGrid()
-#    g.initialize()
-#    g.draw()
+    g = RainbowGrid()
+    g.initialize()
+    g.draw()
 #    g.show()
 #    g.hide()
