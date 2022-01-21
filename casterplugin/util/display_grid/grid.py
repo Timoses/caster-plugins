@@ -131,7 +131,7 @@ if __name__ == "__main__":
             super().__init__()
 
             #self.setWindowTitle('test')
-            #self.setGeometry(500, 500, 500, 500)
+            self.setGeometry(500, 500, 500, 500)
             #self.setMouseTracking(False)
             #self.show()
             #self.showFullScreen()
@@ -148,14 +148,23 @@ if __name__ == "__main__":
             painter = QtGui.QPainter(self)
             painter.setPen(QtGui.QPen(QtCore.Qt.black,  5, QtCore.Qt.SolidLine))
             painter.setBrush(QtGui.QBrush(QtCore.Qt.yellow, QtCore.Qt.SolidPattern))
-            painter.drawRect(80, 40, 400, 200)
+            painter.drawRect(80, 40, 40, 20)
 
     app = QtWidgets.QApplication()
 
     window = Window()
+
+    # Transparency
     window.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-    window.setWindowFlags(QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WA_TranslucentBackground)
+    window.setWindowFlags(
+            # Transparency
+            QtCore.Qt.ToolTip | QtCore.Qt.FramelessWindowHint | QtCore.Qt.WA_TranslucentBackground
+            # Pass through input
+            | QtCore.Qt.WindowTransparentForInput)
     window.setStyleSheet("background:transparent;")
+
+    #window.setMouseTracking(False)
+    #window.setWindowFlags(QtCore.Qt.WindowTransparentForInput)
     window.show()
 #        widget = MyWidget()
 #        widget.resize(800, 600)
