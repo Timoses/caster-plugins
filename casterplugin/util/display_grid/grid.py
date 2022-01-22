@@ -37,6 +37,9 @@ class Grid():
 
     """
 
+    # TODO: Define QT App here!!! which can be used by all
+    # subclasses to draw grids.
+
     def __init__(self, id=None):
         """TODO: to be defined. """
         # ID of the grid
