@@ -158,3 +158,35 @@ if __name__ == "__main__":
     g.draw()
 #    g.show()
 #    g.hide()
+
+
+
+
+
+TODO:
+
+    from multiprocessing.connection import Listener
+
+address = ('localhost', 6000)
+listener = Listener(address, authkey='secret password')
+conn = listener.accept()
+print 'connection accepted from', listener.last_accepted
+while True:
+    msg = conn.recv()
+    # do something with msg
+    if msg == 'close':
+        conn.close()
+        break
+listener.close()
+
+
+
+
+from multiprocessing.connection import Client
+
+address = ('localhost', 6000)
+conn = Client(address, authkey='secret password')
+conn.send('close')
+# can also send arbitrary objects:
+# conn.send(['a', 2.5, None, int, sum])
+conn.close()
