@@ -1,5 +1,5 @@
 from functools import wraps
-from multiprocessing import Process
+from multiprocessing import Process, BaseManager
 
 from xmlrpc.client import ServerProxy
 from xmlrpc.server import SimpleXMLRPCServer
@@ -28,6 +28,10 @@ def grid_proxy(function):
     return wrapper
 
 
+class QtManager(BaseManager):
+    pass
+
+
 class Grid():
 
     """Display grid to determine position on screen
@@ -40,6 +44,8 @@ class Grid():
     # TODO: Define QT App here!!! which can be used by all
     # subclasses to draw grids.
 
+    qt_manager = QtManager()
+
     def __init__(self, id=None):
         """TODO: to be defined. """
         # ID of the grid
@@ -47,6 +53,8 @@ class Grid():
 
         self._grid_process = None
         self._grid_proxy = None
+
+        MyManager.register('Foo1', Foo)
 
     def initialize(self):
         """Initialize grid"""
